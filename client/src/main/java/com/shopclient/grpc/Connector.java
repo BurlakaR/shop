@@ -2,11 +2,14 @@ package com.shopclient.grpc;
 
 
 
+import com.google.protobuf.ByteString;
 import com.shop.*;
 import com.shopclient.object.Product;
+import com.shopserver.database.objects.Category;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -37,6 +40,10 @@ public class Connector {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
+    public static Object convertFromBytes(byte[] bytes) {
+        return SerializationUtils.deserialize(bytes);
+    }
+
     public Product takeProductGrpc(String url) {
         try {
             ProductRequest request = ProductRequest.newBuilder().setUrl(url).build();
@@ -64,15 +71,19 @@ public class Connector {
         return arrayList;
     }
 
-    public List<String> takeCategoriesGrpc(){
-        List<String> categoryList=new ArrayList<>();
+    public List<Category> takeCategoriesGrpc(){
+        List<Category> categoryList=new ArrayList<>();
         try {
             CategoryRequest request = CategoryRequest.newBuilder().build();
             Iterator<CategoryResponse> response = blockingStub.takeCategories(request);
             CategoryResponse res;
             while(response.hasNext()){
                 res =response.next();
-                categoryList.add(res.getUrl());
+                ByteString byteString =res.getCategory();
+                byte mas[] = byteString.toByteArray();
+                Object object = convertFromBytes(mas);
+                Category category=(Category)object;
+                categoryList.add(category);
             }
         } catch (RuntimeException e) {
             logger.log(Level.WARNING, "Request to grpc server failed", e);

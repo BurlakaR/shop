@@ -1,5 +1,6 @@
 package com.shopclient.object;
 
+
 import lombok.Data;
 import lombok.NonNull;
 
