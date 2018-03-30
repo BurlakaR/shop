@@ -19,10 +19,7 @@ message ProductRequest {
 }
 
 message ProductResponse {
-  string url=1;
-  string category=2;
-  string name=3;
-  int32 price=4;
+  bytes product = 1;
 }
 
 message ProductListRequest {

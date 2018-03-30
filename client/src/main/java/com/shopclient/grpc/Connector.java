@@ -4,8 +4,9 @@ package com.shopclient.grpc;
 
 import com.google.protobuf.ByteString;
 import com.shop.*;
-import com.shopclient.object.Product;
+
 import com.shopserver.database.objects.Category;
+import com.shopserver.database.objects.Product;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,11 @@ public class Connector {
         try {
             ProductRequest request = ProductRequest.newBuilder().setUrl(url).build();
             ProductResponse response = blockingStub.takeProduct(request);
-            return new Product(response.getUrl(), response.getCategory(), response.getName(), response.getPrice());
+            ByteString byteString=response.getProduct();
+            byte [] mas = byteString.toByteArray();
+            Object object = convertFromBytes(mas);
+            Product product = (Product) object;
+            return product;
         } catch (RuntimeException e) {
             logger.log(Level.WARNING, "Request to grpc server failed", e);
             return null;
@@ -63,7 +68,11 @@ public class Connector {
             ProductResponse res;
             while(response.hasNext()){
                 res =response.next();
-                arrayList.add(new Product(res.getUrl(), res.getCategory(), res.getName(), res.getPrice()));
+                ByteString byteString=res.getProduct();
+                byte [] mas = byteString.toByteArray();
+                Object object = convertFromBytes(mas);
+                Product product = (Product) object;
+                arrayList.add(product);
             }
         } catch (RuntimeException e) {
             logger.log(Level.WARNING, "Request to grpc server failed", e);

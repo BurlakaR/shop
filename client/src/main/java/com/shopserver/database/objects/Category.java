@@ -11,5 +11,6 @@ import java.util.List;
 public class Category implements Serializable{
 
     @NonNull private String url;
+    @NonNull private String name;
     @NonNull private List<String> subcategories;
 }
