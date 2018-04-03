@@ -6,6 +6,7 @@ import com.google.protobuf.ByteString;
 import com.shop.*;
 
 import com.shopserver.database.objects.Category;
+import com.shopserver.database.objects.Client;
 import com.shopserver.database.objects.Product;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 
 import javax.annotation.PostConstruct;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +45,10 @@ public class Connector {
 
     public static Object convertFromBytes(byte[] bytes) {
         return SerializationUtils.deserialize(bytes);
+    }
+
+    public static byte[] convertToBytes(Serializable object) {
+        return SerializationUtils.serialize(object);
     }
 
     public Product takeProductGrpc(String url) {
@@ -98,5 +104,35 @@ public class Connector {
             logger.log(Level.WARNING, "Request to grpc server failed", e);
         }
         return categoryList;
+    }
+
+    public List<Client> takeClientsGrpc(){
+        List<Client> clientList=new ArrayList<>();
+        try {
+            ClientListRequest request = ClientListRequest.newBuilder().build();
+            Iterator<ClientResponse> response = blockingStub.takeClientList(request);
+            ClientResponse res;
+            while(response.hasNext()){
+                res =response.next();
+                ByteString byteString =res.getClient();
+                byte mas[] = byteString.toByteArray();
+                Object object = convertFromBytes(mas);
+                Client client = (Client) object;
+                clientList.add(client);
+            }
+        } catch (RuntimeException e) {
+            logger.log(Level.WARNING, "Request to grpc server failed", e);
+        }
+        return clientList;
+    }
+
+    public void saveClientGrpc(Client client){
+        try {
+            ByteString byteString = ByteString.copyFrom(convertToBytes(client));
+            SaveClientRequest request = SaveClientRequest.newBuilder().setClient(byteString).build();
+            SaveResponse response = blockingStub.saveClient(request);
+        } catch (RuntimeException e) {
+            logger.log(Level.WARNING, "Request to grpc server failed", e);
+        }
     }
 }

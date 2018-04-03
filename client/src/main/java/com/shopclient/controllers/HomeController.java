@@ -2,6 +2,7 @@ package com.shopclient.controllers;
 
 import com.shopclient.grpc.Connector;
 import com.shopserver.database.objects.Category;
+import com.shopserver.database.objects.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,11 +22,13 @@ public class HomeController {
 
 
     List<Category> categoryList;
+    List<Client> clientList;
 
 
     @PostConstruct
     public void init(){
         categoryList = connector.takeCategoriesGrpc();
+        clientList = connector.takeClientsGrpc();
     }
 
     @RequestMapping("/home")

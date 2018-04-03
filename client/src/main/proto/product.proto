@@ -11,6 +11,9 @@ service ProductService{
   rpc takeProduct (ProductRequest) returns (ProductResponse) {}
   rpc takeProductList (ProductListRequest) returns (stream ProductResponse){}
   rpc takeCategories (CategoryRequest) returns (stream CategoryResponse){}
+
+  rpc takeClientList(ClientListRequest) returns (stream ClientResponse){}
+  rpc saveClient(SaveClientRequest) returns (SaveResponse){}
 }
 
 
@@ -31,4 +34,18 @@ message CategoryRequest {
 
 message CategoryResponse {
     bytes category=1;
+}
+
+message ClientListRequest {
+}
+
+message ClientResponse {
+  bytes client=1;
+}
+
+message SaveResponse {
+}
+
+message SaveClientRequest {
+  bytes client = 1;
 }
