@@ -1,0 +1,99 @@
+.contdiv {
+    width: 100%;
+    margin-left: -15px;
+    font-family: sans-serif;
+}
+
+h3 {
+    text-align: center;
+    font-size: 1.65em;
+    margin: 0 0 30px;
+}
+
+.imgdiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imga {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: calc(50% - 4px);
+    margin-right: 8px;
+    text-decoration: none;
+    color: black;
+}
+
+.imga:nth-of-type(2n) {
+    margin-right: 0;
+}
+
+@media screen and (min-width: 50em) {
+    .imga {
+        width: calc(25% - 6px);
+    }
+
+    .imga:nth-of-type(2n) {
+        margin-right: 8px;
+    }
+
+    .imga:nth-of-type(4n) {
+        margin-right: 0;
+    }
+}
+
+.imga:hover img {
+    transform: scale(1.15);
+}
+
+figure {
+    margin: 0;
+    overflow: hidden;
+}
+
+figcaption {
+    margin-top: 15px;
+}
+
+img {
+    border: none;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: #ccc;
+    transition: transform .2s ease-in-out;
+}
+
+.p a {
+    display: inline;
+    font-size: 13px;
+    margin: 0;
+    text-decoration: underline;
+    color: white;
+}
+
+.p {
+    text-align: center;
+    font-size: 13px;
+    padding-top: 100px;
+}
+
+
+
+.hide-bullets {
+    list-style:none;
+    margin-top:20px;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.carousel-inner>.item>img, .carousel-inner>.item>a>img {
+    width: 100%;
+}
+#slider-thumbs {
+    height: 450px;
+    overflow-y: scroll;
+    white-space: nowrap;
+}

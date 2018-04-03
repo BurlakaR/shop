@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/registration.css"/>
+    
+     <script src="../static/js/func.js"></script>
+    
+    <script language="javascript">
+        function checkFIO(){
+            var fio, test;
+            fio = document.getElementById("fio").value;
+                if(/[\d\W]/.test(fio)){
+                    alert("FIO not valid");
+                }
+                else {
+                }
+            var pas1, pas2;
+            pas1 = document.getElementById("passwordsignup").value;
+            pas2 = document.getElementById("passwordsignup_confirm").value;
+            
+            if(pas1===pas2){
+            }
+            else{
+                alert("Password not Confirm");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="container_demo" class="myform">
+        <a class="hiddenanchor" id="toregistration"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+        <div id="wrapper" >
+            <div id="login" class="animate form">
+                <!-- action=""   -->
+                <form action="/registration" method="post" name="userParam">
+                    <h1>Log in</h1>
+                    <p>
+                        <label for="username" class="uname" data-icon="u">
+                        Your email or username
+                        </label>
+                        <input id="username"  name="username" required="required" type="text" placeholder="email@email.com or username"/>
+                    </p>
+                    <p>
+                        <label for="password" class="upassword" data-icon="p">
+                        Your password
+                        </label>
+                        <input id="password" name="password" required="required" type="password" placeholder="password"/>
+                    </p>
+                    <p class="keeplogin">
+                        
+                        <label for="loginkeeping">
+                            <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"/>
+                            Keep me logged in
+                        </label>
+                    </p>
+                    <p class="login button">
+                        <input type="submit" value="Login" />
+                    </p>
+                    <p class="change_link">
+                        New Customer?
+                        <a href="#toregistration" class="to_registration">Join us</a>
+                    </p>
+                </form>
+            </div>
+            
+            <div id="registration" class="animate form ">
+                <form action="/registration" method="post" name="userParam">
+                    <h1>Sing up</h1>
+                    <p>
+                        <label for="fio" class="fio">
+                            Your FIO
+                        </label>
+                        <input id="fio" name="fio" required="reqiured" type="text" placeholder="name surname"/>
+                        
+                    </p>
+                    
+                    <p>
+                        <label for="date" class="udate">
+                            Your date
+                        </label>
+                        <input id="date" name="date" required="reqiured" type="date" />
+                    </p>
+                    
+                    <p>
+                        <label for="usernamesignup" class="uname" data-icon="u">
+                            Your username
+                        </label>
+                        <input id="usernamesignup" name="usernamesignup" required="reqiured" type="text" placeholder="myusername" />
+                    </p>
+                    <p>
+                        <label for="emailsignup" class="uemail" data-icon="e">
+                            Your email
+                        </label>
+                        <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="myemail@email.com"/>
+                    </p>
+                    <p>
+                    <label for="passwordsignup" class="upassword" data-icon="p">Your password </label>
+                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                </p>
+                <p>
+                    <label for="passwordsignup_confirm" class="upassword" data-icon="p">Please confirm your password </label>
+                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                </p>
+                <p class="signin button">
+                    <input type="submit" value="Sign up" onclick="checkFIO()"/>
+                </p>
+                <p class="change_link">
+                    Already a member ?
+                    <a href="#tologin" class="to_subscribe"> Go and log in </a>
+                </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
