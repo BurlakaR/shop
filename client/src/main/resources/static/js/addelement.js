@@ -206,3 +206,5 @@ function addCarouselPhoto(count){
         element.appendChild(div);
     }
 }
+
+
