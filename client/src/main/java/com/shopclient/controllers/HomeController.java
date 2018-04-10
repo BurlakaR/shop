@@ -55,12 +55,15 @@ public class HomeController {
     public void update(){
         categoryList = connector.takeCategoriesGrpc();
         clientList = connector.takeClientsGrpc();
+        productList=connector.takeProductListGrpc();
     }
 
-    @RequestMapping("/product")
-    public String productPage(ModelMap model, HttpServletRequest request){
+    @RequestMapping("/category/{subcategory}/{product}")
+    public String productPage(ModelMap model, HttpServletRequest request,@PathVariable("subcategory") String category,@PathVariable("product") String prod){
         Authorize client=currentClient(model, request);
+        Product product = productInfo(prod);
         model.addAttribute("client", client);
+        model.addAttribute("product", product);
         return "product";
     }
 
@@ -116,7 +119,14 @@ public class HomeController {
         public String logout(ModelMap model, HttpServletRequest request){
 
             return "redirect:/registration.html#tologin";
-        }
+    }
+
+    @RequestMapping("/buy")
+    public String buy(ModelMap model, HttpServletRequest request){
+        Authorize client=currentClient(model, request);
+        connector.buyGrpc(client);
+        return "redirect:/home";
+    }
 
 
 
@@ -182,6 +192,15 @@ public class HomeController {
 
         }
         return productListBuf;
+    }
+
+    private Product productInfo(String url){
+        for(int i=0; i<productList.size(); i++){
+            if(productList.get(i).getUrl().equals(url)){
+                return productList.get(i);
+            }
+        }
+        return null;
     }
 }
 
