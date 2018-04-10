@@ -42,8 +42,7 @@ public class HomeController {
 
     @RequestMapping("/home")
     public String home(ModelMap model, HttpServletRequest request){
-        Client client=(Client)model.get("client");
-        if(client==null) client=find(request.getRemoteAddr()).getClientAutor();
+        Client client=currentClient(model, request);
         model.addAttribute("user", client);
         model.addAttribute("categoryList",  categoryList);
         System.out.println(client.getLogin());
@@ -57,12 +56,16 @@ public class HomeController {
     }
 
     @RequestMapping("/product")
-    public String productPage(ModelMap model){
+    public String productPage(ModelMap model, HttpServletRequest request){
+        Client client=currentClient(model, request);
+        model.addAttribute("user", client);
         return "product";
     }
 
     @RequestMapping("/category")
-    public String categoryPage(ModelMap model){
+    public String categoryPage(ModelMap model, HttpServletRequest request){
+        Client client=currentClient(model, request);
+        model.addAttribute("user", client);
         return "category";
     }
 
@@ -103,6 +106,11 @@ public class HomeController {
     }
 
 
+    private Client currentClient(ModelMap model, HttpServletRequest request){
+        Client client=(Client)model.get("client");
+        if(client==null) client=find(request.getRemoteAddr()).getClientAutor();
+        return client;
+    }
 
     private Client authorize(String login, String password, String ip){
         for(int i=0;i<clientList.size(); i++){

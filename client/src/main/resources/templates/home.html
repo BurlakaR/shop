@@ -18,7 +18,15 @@
 
     <script th:inline="javascript">
         var categoryList= [[${categoryList}]];
+
     </script>
+
+    <script th:inline="javascript">
+        var user= [[${user}]];
+
+    </script>
+
+
 
 </head>
 <body>
@@ -46,11 +54,25 @@
                     </form>
                 </div>
 
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="nav">
                     <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart  <span class="badge">3</span></a></li>
 
-                    <li><a href="registration.html#toregistration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="registration.html#tologin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <div clas="dropdown">
+                        <button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown" th:text="${user.login}">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-menu" class ="dropdown-menu">
+                            <script type="text/javascript">
+                                $(function(){
+                                    addDropdownMenu(user);
+                                });
+                            </script>
+                        </ul>
+                    </div>
+                    <!--<li id="signup"><a href="registration.html#toregistration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li id="login-label"><a href="#" ><span class="glyphicon glyphicon-user" th:text="${user.login}"></span></a></li>
+                    <li><a href="registration.html#tologin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>-->
+
                 </ul>
             </div>
         </div>

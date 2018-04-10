@@ -9,85 +9,107 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+    <!--Font Awesome (added because you use icons in your prepend/append)-->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+    <!-- Inline CSS based on choices in "Settings" tab -->
+    <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+
     <link rel="stylesheet" href="../static/css/registration.css"/>
-    
-     <script src="../static/js/func.js"></script>
-    
-    <script language="javascript">
 
+    <script src="../static/js/func.js"></script>
 
-
+    <script>
+        $(document).ready(function(){
+            var date_input=$('input[name="date"]'); //our date input has the name "date"
+            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        })
     </script>
 </head>
 <body>
-    <div id="container_demo" class="myform">
-        <a class="hiddenanchor" id="toregistration"></a>
-        <a class="hiddenanchor" id="tologin"></a>
-        <div id="wrapper" >
-            <div id="login" class="animate form">
-                <!-- action=""   -->
-                <form action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
-                    <h1>Log in</h1>
-                    <p>
-                        <label for="username" class="uname" data-icon="u">
+<div id="container_demo" class="myform">
+    <a class="hiddenanchor" id="toregistration"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+    <div id="wrapper" >
+        <div id="login" class="animate form">
+            <!-- action=""   -->
+            <form action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
+                <h1>Log in</h1>
+                <p>
+                    <label for="username" class="uname" data-icon="u">
                         Your email or username
-                        </label>
-                        <input id="username"  name="username" required="required" type="text" placeholder="email@email.com or username" th:field="*{login}"/>
-                    </p>
-                    <p>
-                        <label for="password" class="upassword" data-icon="p">
+                    </label>
+                    <input id="username"  name="username" required="required" type="text" placeholder="email@email.com or username" th:field="*{login}"/>
+                </p>
+                <p>
+                    <label for="password" class="upassword" data-icon="p">
                         Your password
-                        </label>
-                        <input id="password" name="password" required="required" type="password" placeholder="password" th:field="*{password}"/>
-                    </p>
-                    <p class="keeplogin">
-                        
-                        <label for="loginkeeping">
-                            <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"/>
-                            Keep me logged in
-                        </label>
-                    </p>
-                    <p class="login button">
-                        <input type="submit" value="Login" />
-                    </p>
-                    <p class="change_link">
-                        New Customer?
-                        <a href="#toregistration" class="to_registration">Join us</a>
-                    </p>
-                </form>
-            </div>
-            
-            <div id="registration" class="animate form ">
-                <form action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
-                    <h1>Sing up</h1>
-                    <p>
-                        <label for="fio" class="fio">
-                            Your FIO
-                        </label>
-                        <input id="fio" name="fio" type="text" placeholder="name surname" required pattern="[A-Z][A-Za-z -]+" th:field="*{fio}"/>
-                        
-                    </p>
-                    
-                    <p>
-                        <label for="date" class="udate">
-                            Your date
-                        </label>
-                        <input id="date" name="date"  required="reqiured" placeholder="mydateofbirth" type="date" th:field="*{date}" onclick="this.value=' '"/>
-                    </p>
-                    
-                    <p>
-                        <label for="usernamesignup" class="uname" data-icon="u">
-                            Your username
-                        </label>
-                        <input id="usernamesignup" name="usernamesignup" required="reqiured" type="text" placeholder="myusername" th:field="*{login}"/>
-                    </p>
-                    <p>
-                        <label for="emailsignup" class="uemail" data-icon="e">
-                            Your email
-                        </label>
-                        <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="myemail@email.com" th:field="*{email}"/>
-                    </p>
-                    <p>
+                    </label>
+                    <input id="password" name="password" required="required" type="password" placeholder="password" th:field="*{password}"/>
+                </p>
+                <p class="keeplogin">
+
+                    <label for="loginkeeping">
+                        <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"/>
+                        Keep me logged in
+                    </label>
+                </p>
+                <p class="login button">
+                    <input type="submit" value="Login" />
+                </p>
+                <p class="change_link">
+                    New Customer?
+                    <a href="#toregistration" class="to_registration">Join us</a>
+                </p>
+            </form>
+        </div>
+
+        <div id="registration" class="animate form ">
+            <form action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
+                <h1>Sing up</h1>
+                <p>
+                    <label for="fio" class="fio">
+                        Your FIO
+                    </label>
+                    <input id="fio" name="fio" type="text" placeholder="name surname" required pattern="[A-Z][A-Za-z -]+" th:field="*{fio}"/>
+
+                </p>
+
+                <p>
+                    <label for="date" class="udate">
+                        Your date
+                    </label>
+                    <input id="date" name="date" placeholder="MM/DD/YYYY" type="text" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"  th:field="*{date}" />
+                </p>
+
+                <p>
+                    <label for="usernamesignup" class="uname" data-icon="u">
+                        Your username
+                    </label>
+                    <input id="usernamesignup" name="usernamesignup" required="reqiured" type="text" placeholder="myusername" th:field="*{login}"/>
+                </p>
+                <p>
+                    <label for="emailsignup" class="uemail" data-icon="e">
+                        Your email
+                    </label>
+                    <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="myemail@email.com" th:field="*{email}"/>
+                </p>
+                <p>
                     <label for="passwordsignup" class="upassword" data-icon="p">Your password </label>
                     <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO" th:field="*{password}"/>
                 </p>
@@ -100,9 +122,9 @@
                     Already a member ?
                     <a href="#tologin" class="to_subscribe"> Go and log in </a>
                 </p>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>

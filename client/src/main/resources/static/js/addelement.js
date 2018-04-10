@@ -208,3 +208,36 @@ function addCarouselPhoto(count){
 }
 
 
+function addDropdownMenu(user) {
+
+    var element = document.getElementById("dropdown-menu");
+    if(user.login==="guest") {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+
+        a.setAttribute("href", "registration.html#toregistration");
+        a.innerHTML="Sign Up";
+
+        li.appendChild(a);
+        element.appendChild(li);
+
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+
+        a.setAttribute("href", "registration.html#tologin");
+        a.innerHTML="Login";
+
+        li.appendChild(a);
+        element.appendChild(li);
+    } else{
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+
+        a.innerHTML="Sign Up";
+
+        li.appendChild(a);
+        element.appendChild(li);
+    }
+
+}
+
