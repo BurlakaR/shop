@@ -40,6 +40,18 @@
             })
         })
     </script>
+    <script>
+       var form = document.getElementById('regform');
+       document.getElementById('regbutton').addEventListener('click', function (){
+           form.submit();
+       })
+    </script>
+    <script>
+        var form = document.getElementById('logform');
+        document.getElementById('logbutton').addEventListener('click', function (){
+            form.submit();
+        })
+    </script>
 </head>
 <body>
 
@@ -51,7 +63,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="home.html">Shop</a>
+            <a class="navbar-brand" href="/home">Shop</a>
         </div>
 
     </div>
@@ -62,7 +74,7 @@
     <div id="wrapper" >
         <div id="login" class="animate form">
             <!-- action=""   -->
-            <form action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
+            <form id="logform" action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
                 <h1>Log in</h1>
                 <p>
                     <label for="username" class="uname" data-icon="u">
@@ -84,7 +96,8 @@
                     </label>
                 </p>-->
                 <p class="login button">
-                    <input type="submit" value="Login" />
+                   <!-- <input type="submit" value="Login" />-->
+                    <button id="logbutton">Login</button>
                 </p>
                 <p class="change_link">
                     New Customer?
@@ -94,7 +107,7 @@
         </div>
 
         <div id="registration" class="animate form ">
-            <form action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
+            <form id="regform" action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
                 <h1>Sing up</h1>
                 <p>
                     <label for="fio" class="fio">
@@ -128,15 +141,17 @@
                     <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO" th:field="*{password}"/>
                 </p>
 
-
                 <p class="signin button">
-                    <input type="submit" value="Sign up" onclick="checkForm()"/>
+                    <button id="regbutton" >Sign up</button>
                 </p>
+
+
                 <p class="change_link">
                     Already a member ?
                     <a href="#tologin" class="to_subscribe"> Go and log in </a>
                 </p>
             </form>
+            <button onclick="checkForm()">LAB-3</button>
         </div>
     </div>
 </div>

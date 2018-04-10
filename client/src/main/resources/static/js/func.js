@@ -1,50 +1,20 @@
 
 
 
-function checkForm(e){
-    e.PreventDefault();
+function checkForm(){
+    var myWindow = window.open("", "MsgWindow", "width=400,height=500,scrollbars=yes,status=yes");
 
-    var fio, login, password, checkpassword, date, email;
+    myWindow.document.write("<p>Version: "+navigator.appVersion+"</p>");
+    myWindow.document.write("<p> Name: "+navigator.appName+"</p>");
 
-    fio= document.getElementById("fio").value;
-    login=document.getElementById("usernamesignup").value;
-    password=document.getElementById("passwordsignup").value;
-    checkpassword=document.getElementById("passwordsignupcheck").value;
-    date=document.getElementById("date").value;
-    email=document.getElementById("emailsignup").value;
+    myWindow.document.write("<p>Protocol: "+ window.location.protocol+"</p>");
+    myWindow.document.write("<p> Hostname: "+ window.location.hostname+"</p>");
 
-    var validate=true;
+    myWindow.document.write("<p>Screen-width: "+ screen.width+"</p>");
+    myWindow.document.write("<p> Screen-height: "+ screen.height+"</p>");
 
-
-    if(/[\d\W]/.test(fio)){
-        validate=false;
-    }
-
-    if(validate){
-        var form=document.createElement("form");
-        form.setAttribute("method","post");
-        form.setAttribute("action","/registration");
-
-        form.appendChild(fio);
-        form.appendChild(login);
-        form.appendChild(password);
-        form.appendChild(checkpassword);
-        form.appendChild(date);
-        form.appendChild(email);
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-/*    var fio, test;
-    
-    fio = document.getElementById("fio").value;
-    
-    if(/[\d\W]/.test(fio)){
-        var xhr= new XMLHttpRequest();
-        xhr.open('GET','/errorRegistr', true);
-    }*/
-
-    
+    myWindow.document.write("<p>History-current: "+history.state+"</p>");
+    myWindow.document.write("<p> History-length: "+ window.history.length+"</p>");
 }
+
 

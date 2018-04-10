@@ -217,7 +217,7 @@ function addDropdownMenu(user) {
         var li_signup = document.createElement('li');
         var a_signup = document.createElement('a');
 
-        a_signup.setAttribute("href", "registration.html#toregistration");
+        a_signup.setAttribute("href", "/registration#toregistration");
         a_signup.innerHTML = "Sign Up";
 
         li_signup.appendChild(a_signup);
@@ -226,7 +226,7 @@ function addDropdownMenu(user) {
         var li_login = document.createElement('li');
         var a_login = document.createElement('a');
 
-        a_login.setAttribute("href", "registration.html#tologin");
+        a_login.setAttribute("href", "/registration#tologin");
         a_login.innerHTML = "Login";
 
         li_login.appendChild(a_login);
