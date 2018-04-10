@@ -14,6 +14,7 @@ service ProductService{
 
   rpc takeClientList(ClientListRequest) returns (stream ClientResponse){}
   rpc saveClient(SaveClientRequest) returns (SaveResponse){}
+  rpc buy(BuyRequest) returns (BuyResponse){}
 }
 
 
@@ -48,4 +49,11 @@ message SaveResponse {
 
 message SaveClientRequest {
   bytes client = 1;
+}
+
+message BuyRequest {
+  bytes check=1;
+}
+
+message BuyResponse {
 }

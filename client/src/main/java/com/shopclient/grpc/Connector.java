@@ -5,6 +5,7 @@ package com.shopclient.grpc;
 import com.google.protobuf.ByteString;
 import com.shop.*;
 
+import com.shopserver.database.objects.Authorize;
 import com.shopserver.database.objects.Category;
 import com.shopserver.database.objects.Client;
 import com.shopserver.database.objects.Product;
@@ -131,6 +132,16 @@ public class Connector {
             ByteString byteString = ByteString.copyFrom(convertToBytes(client));
             SaveClientRequest request = SaveClientRequest.newBuilder().setClient(byteString).build();
             SaveResponse response = blockingStub.saveClient(request);
+        } catch (RuntimeException e) {
+            logger.log(Level.WARNING, "Request to grpc server failed", e);
+        }
+    }
+
+    public void buyGrpc(Authorize authorize){
+        try {
+            ByteString byteString = ByteString.copyFrom(convertToBytes(authorize));
+            BuyRequest request = BuyRequest.newBuilder().setCheck(byteString).build();
+            BuyResponse response = blockingStub.buy(request);
         } catch (RuntimeException e) {
             logger.log(Level.WARNING, "Request to grpc server failed", e);
         }

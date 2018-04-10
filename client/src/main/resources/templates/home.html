@@ -22,7 +22,7 @@
     </script>
 
     <script th:inline="javascript">
-        var user= [[${user}]];
+        var user= [[${client}]];
 
     </script>
 
@@ -58,7 +58,7 @@
                     <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart  <span class="badge">3</span></a></li>
 
                     <div clas="dropdown">
-                        <button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown" th:text="${user.login}">
+                        <button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown" th:text="${client.clientAuthor.login}">
                             <span class="caret"></span>
                         </button>
                         <ul id="dropdown-menu" class ="dropdown-menu">

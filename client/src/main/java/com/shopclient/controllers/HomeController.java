@@ -42,10 +42,10 @@ public class HomeController {
 
     @RequestMapping("/home")
     public String home(ModelMap model, HttpServletRequest request){
-        Client client=currentClient(model, request);
-        model.addAttribute("user", client);
+        Authorize client=currentClient(model, request);
+        model.addAttribute("client", client);
         model.addAttribute("categoryList",  categoryList);
-        System.out.println(client.getLogin());
+        System.out.println(client.getClientAutor().getLogin());
         return "home";
     }
 
@@ -57,15 +57,15 @@ public class HomeController {
 
     @RequestMapping("/product")
     public String productPage(ModelMap model, HttpServletRequest request){
-        Client client=currentClient(model, request);
-        model.addAttribute("user", client);
+        Authorize client=currentClient(model, request);
+        model.addAttribute("client", client);
         return "product";
     }
 
     @RequestMapping("/category")
     public String categoryPage(ModelMap model, HttpServletRequest request){
-        Client client=currentClient(model, request);
-        model.addAttribute("user", client);
+        Authorize client=currentClient(model, request);
+        model.addAttribute("client", client);
         return "category";
     }
 
@@ -85,8 +85,9 @@ public class HomeController {
     public String registrationForm(@ModelAttribute Client client,  HttpServletRequest request, RedirectAttributes redirectAttributes){
         if(registration(client)){
             clientList.add(client);
-            findandchange(new Authorize(client, request.getRemoteAddr()), request.getRemoteAddr());
-            redirectAttributes.addFlashAttribute("client", client);
+            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
+            findandchange(authorize,  request.getRemoteAddr());
+            redirectAttributes.addFlashAttribute("client", authorize);
             connector.saveClientGrpc(client);
             return "redirect:/home";
         }
@@ -95,10 +96,11 @@ public class HomeController {
 
     @PostMapping("/authorize")
     public String authorizeForm(@ModelAttribute Login clientaut, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Client client= authorize(clientaut.getLogin(), clientaut.getPassword(), request.getRemoteAddr());
+        Client client= authorize(clientaut.getLogin(), clientaut.getPassword());
         if(client!=null) {
-            findandchange(new Authorize(client, request.getRemoteAddr()), request.getRemoteAddr());
-            redirectAttributes.addFlashAttribute("client", client);
+            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
+            findandchange(authorize,  request.getRemoteAddr());
+            redirectAttributes.addFlashAttribute("client", authorize);
             return "redirect:/home";
         }
         else
@@ -106,13 +108,15 @@ public class HomeController {
     }
 
 
-    private Client currentClient(ModelMap model, HttpServletRequest request){
-        Client client=(Client)model.get("client");
-        if(client==null) client=find(request.getRemoteAddr()).getClientAutor();
+    private Authorize currentClient(ModelMap model, HttpServletRequest request){
+        Authorize client=(Authorize) model.get("client");
+        if(client==null) client=find(request.getRemoteAddr());
         return client;
     }
 
-    private Client authorize(String login, String password, String ip){
+
+
+    private Client authorize(String login, String password){
         for(int i=0;i<clientList.size(); i++){
             if(login.equals(clientList.get(i).getLogin())&&password.equals(clientList.get(i).getPassword())){
                 return clientList.get(i);
@@ -137,8 +141,8 @@ public class HomeController {
                 return authorizeList.get(i);
             }
         }
-        authorizeList.add(new Authorize(guest, ip));
-        return  new Authorize(guest, ip);
+        authorizeList.add(new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0)));
+        return  new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0));
     }
 
     private void findandchange(Authorize authorize,String ip){
