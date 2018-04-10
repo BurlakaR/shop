@@ -67,10 +67,10 @@ public class Connector {
         }
     }
 
-    public List<Product> takeProductListGrpc(String url){
+    public List<Product> takeProductListGrpc(){
         List<Product> arrayList=new ArrayList<>();
         try {
-            ProductListRequest request = ProductListRequest.newBuilder().setUrl(url).build();
+            ProductListRequest request = ProductListRequest.newBuilder().build();
             Iterator<ProductResponse> response = blockingStub.takeProductList(request);
             ProductResponse res;
             while(response.hasNext()){

@@ -10,11 +10,13 @@ function addCategory (categories){
         divdropcontent.setAttribute('class','dropdown-content');
         for(var j=0;j<categories[i].subcategories.length;j++){
             var linky = document.createElement('a');
+            linky.setAttribute("href", "/"+"category"+"/"+categories[i].subcategories[j]);
             linky.innerText = categories[i].subcategories[j];
             divdropcontent.appendChild(linky);
         }
 
         var link = document.createElement('a');
+        link.setAttribute("href", "/"+"category"+"/"+categories[i].url);
         link.setAttribute('class','dropbtn');
         link.innerText=categories[i].url;
 
@@ -197,7 +199,7 @@ function addCarouselPhoto(count){
         }
         
         var img = document.createElement('img');
-        img.setAttribute("src", "images/sl"+i+".jpg");
+        img.setAttribute("src", "../static/img/sl"+i+".jpg");
         img.setAttribute("alt", "sl"+i);
         img.setAttribute("style", "width:100%;");
         
@@ -209,35 +211,60 @@ function addCarouselPhoto(count){
 
 
 function addDropdownMenu(user) {
+    var element = document.getElementById('dropdown-menu');
 
-    var element = document.getElementById("dropdown-menu");
-    if(user.login==="guest") {
-        var li = document.createElement('li');
-        var a = document.createElement('a');
+    if (user === "guest") {
+        var li_signup = document.createElement('li');
+        var a_signup = document.createElement('a');
 
-        a.setAttribute("href", "registration.html#toregistration");
-        a.innerHTML="Sign Up";
+        a_signup.setAttribute("href", "registration.html#toregistration");
+        a_signup.innerHTML = "Sign Up";
 
-        li.appendChild(a);
-        element.appendChild(li);
+        li_signup.appendChild(a_signup);
+        element.appendChild(li_signup);
 
-        var li = document.createElement('li');
-        var a = document.createElement('a');
+        var li_login = document.createElement('li');
+        var a_login = document.createElement('a');
 
-        a.setAttribute("href", "registration.html#tologin");
-        a.innerHTML="Login";
+        a_login.setAttribute("href", "registration.html#tologin");
+        a_login.innerHTML = "Login";
 
-        li.appendChild(a);
-        element.appendChild(li);
-    } else{
-        var li = document.createElement('li');
-        var a = document.createElement('a');
+        li_login.appendChild(a_login);
+        element.appendChild(li_login);
+    } else {
+        var li_logout = document.createElement('li');
+        var a_logout = document.createElement('a');
 
-        a.innerHTML="Sign Up";
+        a_logout.setAttribute("href", "logout");
+        a_logout.innerHTML = "Logout";
 
-        li.appendChild(a);
-        element.appendChild(li);
+        li_logout.appendChild(a_logout);
+        element.appendChild(li_logout);
     }
+}
 
+function addCarouselInner(countElement) {
+    var element = document.getElementById("carousel-inner");
+    var div = document.createElement('div');
+    div.setAttribute("class", "active item");
+
+    var img = document.createElement('img');
+    img.setAttribute("src", "../static/img/sl0.jpg");
+
+    div.appendChild(img);
+    element.appendChild(div);
+
+    for(i=1; i<countElement; i++){
+
+            var div = document.createElement('div');
+            div.setAttribute("class", "item");
+
+            var img = document.createElement('img');
+            img.setAttribute("src", "../static/img/sl" + i + ".jpg");
+
+            div.appendChild(img);
+            element.appendChild(div);
+
+    }
 }
 

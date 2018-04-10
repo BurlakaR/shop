@@ -42,6 +42,20 @@
     </script>
 </head>
 <body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="home.html">Shop</a>
+        </div>
+
+    </div>
+</nav>
 <div id="container_demo" class="myform">
     <a class="hiddenanchor" id="toregistration"></a>
     <a class="hiddenanchor" id="tologin"></a>
@@ -62,13 +76,13 @@
                     </label>
                     <input id="password" name="password" required="required" type="password" placeholder="password" th:field="*{password}"/>
                 </p>
-                <p class="keeplogin">
+               <!-- <p class="keeplogin">
 
                     <label for="loginkeeping">
                         <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"/>
                         Keep me logged in
                     </label>
-                </p>
+                </p>-->
                 <p class="login button">
                     <input type="submit" value="Login" />
                 </p>

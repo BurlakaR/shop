@@ -14,6 +14,14 @@
     <link rel="stylesheet"  href="../static/css/img.css"/>
     <link rel="stylesheet"  href="../static/css/product.css">
 
+    <script src="../static/js/addelement.js"></script>
+    <script src="../static/js/product.js"></script>
+
+    <script th:inline="javascript">
+        var user= [[${client.clientAutor.login}]];
+
+    </script>
+
 </head>
 <body>
 
@@ -25,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Shop</a>
+            <a class="navbar-brand" href="home.html">Shop</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <div class="row">
@@ -42,23 +50,23 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart  <span class="badge">3</span></a></li>
-                    <li><a href="registration.html#toregistration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="registration.html#tologin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="'Hello,' +${client.clientAutor.login}"> <span class="caret"></span></a>
+                        <ul id="dropdown-menu" class="dropdown-menu">
+                            <script type="text/javascript">
+                                $(function(){
+                                    addDropdownMenu(user);
+                                });
+                            </script>
+                        </ul>
+                    </li>
+                    <!--<li><a href="registration.html#toregistration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="registration.html#tologin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>-->
                 </ul>
             </div>
         </div>
     </div>
 
 </nav>
-
-<ul class="breadcrumb" id="breadcrumb">
-    <script type="text/javascript">
-        $(function(){
-            addBreadcrumb();
-        });
-    </script>
-
-</ul>
 
 <div class="container">
     <div class="col-sub col-sm-6">
@@ -188,8 +196,8 @@
     <p>Footer</p>
 </div>
 
-<script src="../static/js/addelement.js"></script>
-<script src="../static/js/product.js"></script>
+
+
 
 </body>
 

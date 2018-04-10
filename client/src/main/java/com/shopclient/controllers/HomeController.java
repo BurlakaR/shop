@@ -2,6 +2,7 @@ package com.shopclient.controllers;
 
 import com.shopclient.grpc.Connector;
 import com.shopserver.database.objects.*;
+import org.hibernate.validator.constraints.LuhnCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,6 +39,7 @@ public class HomeController {
         categoryList = connector.takeCategoriesGrpc();
         clientList = connector.takeClientsGrpc();
         authorizeList=new ArrayList<>();
+        productList=connector.takeProductListGrpc();
     }
 
     @RequestMapping("/home")
@@ -62,10 +64,13 @@ public class HomeController {
         return "product";
     }
 
-    @RequestMapping("/category")
-    public String categoryPage(ModelMap model, HttpServletRequest request){
+    @RequestMapping("/category/{subcategory}")
+    public String categoryPage(ModelMap model, HttpServletRequest request, @PathVariable("subcategory") String category){
         Authorize client=currentClient(model, request);
+        List<Product> product = productCategoryList(category);
         model.addAttribute("client", client);
+        model.addAttribute("products", product);
+        System.out.println(category);
         return "category";
     }
 
@@ -106,6 +111,13 @@ public class HomeController {
         else
             return "redirect:/registration";
     }
+
+    @RequestMapping("/logout")
+        public String logout(ModelMap model, HttpServletRequest request){
+
+            return "redirect:/registration.html#tologin";
+        }
+
 
 
     private Authorize currentClient(ModelMap model, HttpServletRequest request){
@@ -157,4 +169,20 @@ public class HomeController {
         if(find)
         authorizeList.add(authorize);
     }
+
+    private List<Product> productCategoryList(String category){
+        List<Product> productListBuf = new ArrayList<>();
+        for(int i=0; i<productList.size(); i++){
+            for(int j=0; j<productList.get(i).getSubcategoryList().size(); j++){
+                if(category.equals(productList.get(i).getSubcategoryList().get(j))){
+                    productListBuf.add(productList.get(i));
+                    break;
+                }
+            }
+
+        }
+        return productListBuf;
+    }
 }
+
+
