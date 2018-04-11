@@ -197,7 +197,6 @@ function addCarouselPhoto(count){
         } else{
             div.setAttribute("class", "item");
         }
-        
         var img = document.createElement('img');
         img.setAttribute("src", "../static/img/sl"+i+".jpg");
         img.setAttribute("alt", "sl"+i);

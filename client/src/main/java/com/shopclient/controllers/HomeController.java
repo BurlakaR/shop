@@ -73,6 +73,7 @@ public class HomeController {
         List<Product> product = productCategoryList(category);
         model.addAttribute("client", client);
         model.addAttribute("products", product);
+        model.addAttribute("categoryList",  categoryList);
         System.out.println(category);
         return "category";
     }

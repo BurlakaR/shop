@@ -8,16 +8,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
-
+   <!-- <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+-->
     <!--Font Awesome (added because you use icons in your prepend/append)-->
-    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+   <!-- <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
-    <!-- Inline CSS based on choices in "Settings" tab -->
-    <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>
+    &lt;!&ndash; Inline CSS based on choices in "Settings" tab &ndash;&gt;
+    &lt;!&ndash; <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}</style>&ndash;&gt;
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>-->
 
     <!-- Include Date Range Picker -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
@@ -28,33 +27,9 @@
 
     <script src="../static/js/func.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            var date_input=$('input[name="date"]'); //our date input has the name "date"
-            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
-                format: 'mm/dd/yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            })
-        })
-    </script>
-    <script>
-       var form = document.getElementById('regform');
-       document.getElementById('regbutton').addEventListener('click', function (){
-           form.submit();
-       })
-    </script>
-    <script>
-        var form = document.getElementById('logform');
-        document.getElementById('logbutton').addEventListener('click', function (){
-            form.submit();
-        })
-    </script>
+
 </head>
 <body>
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -68,13 +43,13 @@
 
     </div>
 </nav>
-<div id="container_demo" class="myform">
+<div id="container_demo" class="container" >
     <a class="hiddenanchor" id="toregistration"></a>
     <a class="hiddenanchor" id="tologin"></a>
-    <div id="wrapper" >
+    <div id="wrapper" class="form">
         <div id="login" class="animate form">
             <!-- action=""   -->
-            <form id="logform" action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
+            <form action="#" th:action="@{/authorize}" th:object="${clientaut}" method="post" name="userParam">
                 <h1>Log in</h1>
                 <p>
                     <label for="username" class="uname" data-icon="u">
@@ -88,15 +63,7 @@
                     </label>
                     <input id="password" name="password" required="required" type="password" placeholder="password" th:field="*{password}"/>
                 </p>
-               <!-- <p class="keeplogin">
-
-                    <label for="loginkeeping">
-                        <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"/>
-                        Keep me logged in
-                    </label>
-                </p>-->
                 <p class="login button">
-                   <!-- <input type="submit" value="Login" />-->
                     <button id="logbutton">Login</button>
                 </p>
                 <p class="change_link">
@@ -107,7 +74,7 @@
         </div>
 
         <div id="registration" class="animate form ">
-            <form id="regform" action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
+            <form action="#" th:action="@{/registration}" th:object="${client}" method="post" name="userParam">
                 <h1>Sing up</h1>
                 <p>
                     <label for="fio" class="fio">
@@ -141,11 +108,10 @@
                     <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO" th:field="*{password}"/>
                 </p>
 
+
                 <p class="signin button">
                     <button id="regbutton" >Sign up</button>
                 </p>
-
-
                 <p class="change_link">
                     Already a member ?
                     <a href="#tologin" class="to_subscribe"> Go and log in </a>
