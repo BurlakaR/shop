@@ -58,8 +58,8 @@ public class HomeController {
         productList=connector.takeProductListGrpc();
     }
 
-    @RequestMapping("/category/{subcategory}/{product}")
-    public String productPage(ModelMap model, HttpServletRequest request,@PathVariable("subcategory") String category,@PathVariable("product") String prod){
+    @RequestMapping("/products/{product}")
+    public String productPage(ModelMap model, HttpServletRequest request,@PathVariable("product") String prod){
         Authorize client=currentClient(model, request);
         Product product = productInfo(prod);
         model.addAttribute("client", client);
@@ -67,13 +67,13 @@ public class HomeController {
         return "product";
     }
 
-    @RequestMapping("/category/{subcategory}")
-    public String categoryPage(ModelMap model, HttpServletRequest request, @PathVariable("subcategory") String category){
+    @RequestMapping("/{category}/{subcategory}")
+    public String categoryPage(ModelMap model, HttpServletRequest request,@PathVariable("category") String category, @PathVariable("subcategory") String subcategory){
         Authorize client=currentClient(model, request);
-        List<Product> product = productCategoryList(category);
+        List<Product> product = productCategoryList(category, subcategory);
         model.addAttribute("client", client);
-        model.addAttribute("products", product);
         model.addAttribute("categoryList",  categoryList);
+        model.addAttribute("products", product);
         System.out.println(category);
         return "category";
     }
@@ -181,15 +181,20 @@ public class HomeController {
         authorizeList.add(authorize);
     }
 
-    private List<Product> productCategoryList(String category){
+    private List<Product> productCategoryList(String category, String subcategory){
         List<Product> productListBuf = new ArrayList<>();
+        boolean categoryBull=false;
+        boolean subcategoryBull=false;
         for(int i=0; i<productList.size(); i++){
             for(int j=0; j<productList.get(i).getSubcategoryList().size(); j++){
                 if(category.equals(productList.get(i).getSubcategoryList().get(j))){
-                    productListBuf.add(productList.get(i));
-                    break;
+                    categoryBull=true;
+                }
+                if(subcategory.equals(productList.get(i).getSubcategoryList().get(j))){
+                    subcategoryBull=true;
                 }
             }
+            if(categoryBull&&subcategoryBull) productListBuf.add(productList.get(i));
 
         }
         return productListBuf;

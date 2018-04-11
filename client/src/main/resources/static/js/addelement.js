@@ -10,13 +10,13 @@ function addCategory (categories){
         divdropcontent.setAttribute('class','dropdown-content');
         for(var j=0;j<categories[i].subcategories.length;j++){
             var linky = document.createElement('a');
-            linky.setAttribute("href", "/"+"category"+"/"+categories[i].subcategories[j]);
+            linky.setAttribute("href", "/"+categories[i].url+"/"+categories[i].subcategories[j]);
             linky.innerText = categories[i].subcategories[j];
             divdropcontent.appendChild(linky);
         }
 
         var link = document.createElement('a');
-        link.setAttribute("href", "/"+"category"+"/"+categories[i].url);
+        link.setAttribute("href", "/"+categories[i].url+"/"+categories[i].url);
         link.setAttribute('class','dropbtn');
         link.innerText=categories[i].url;
 
