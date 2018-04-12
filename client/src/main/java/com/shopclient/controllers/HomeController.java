@@ -1,5 +1,6 @@
 package com.shopclient.controllers;
 
+import com.shopclient.dataservices.DataManager;
 import com.shopclient.grpc.Connector;
 import com.shopserver.database.objects.*;
 import org.hibernate.validator.constraints.LuhnCheck;
@@ -22,46 +23,31 @@ import java.util.List;
 @Controller
 public class HomeController {
     @Autowired
-    private Connector connector;
+    private DataManager dataManager;
 
 
-    private final static Client guest =new Client("-","guest", "", "", new Date());
 
 
-    List<Category> categoryList;
-    List<Product> productList;
-    List<Client> clientList;
-    List<Authorize> authorizeList;
 
 
-    @PostConstruct
-    public void init(){
-        categoryList = connector.takeCategoriesGrpc();
-        clientList = connector.takeClientsGrpc();
-        authorizeList=new ArrayList<>();
-        productList=connector.takeProductListGrpc();
-    }
 
     @RequestMapping("/home")
     public String home(ModelMap model, HttpServletRequest request){
-        Authorize client=currentClient(model, request);
+        Authorize client=dataManager.currentClient(model, request);
         model.addAttribute("client", client);
-        model.addAttribute("categoryList",  categoryList);
-        System.out.println(client.getClientAutor().getLogin());
+        model.addAttribute("categoryList",  dataManager.getCategoryList());
         return "home";
     }
 
     @RequestMapping("/update")
     public void update(){
-        categoryList = connector.takeCategoriesGrpc();
-        clientList = connector.takeClientsGrpc();
-        productList=connector.takeProductListGrpc();
+        dataManager.update();
     }
 
     @RequestMapping("/products/{product}")
     public String productPage(ModelMap model, HttpServletRequest request,@PathVariable("product") String prod){
-        Authorize client=currentClient(model, request);
-        Product product = productInfo(prod);
+        Authorize client=dataManager.currentClient(model, request);
+        Product product = dataManager.productInfo(prod);
         model.addAttribute("client", client);
         model.addAttribute("product", product);
         return "product";
@@ -69,12 +55,11 @@ public class HomeController {
 
     @RequestMapping("/{category}/{subcategory}")
     public String categoryPage(ModelMap model, HttpServletRequest request,@PathVariable("category") String category, @PathVariable("subcategory") String subcategory){
-        Authorize client=currentClient(model, request);
-        List<Product> product = productCategoryList(category, subcategory);
+        Authorize client=dataManager.currentClient(model, request);
+        List<Product> product = dataManager.productCategoryList(category, subcategory);
         model.addAttribute("client", client);
-        model.addAttribute("categoryList",  categoryList);
+        model.addAttribute("categoryList",  dataManager.getCategoryList());
         model.addAttribute("products", product);
-        System.out.println(category);
         return "category";
     }
 
@@ -92,12 +77,10 @@ public class HomeController {
 
     @PostMapping("/registration")
     public String registrationForm(@ModelAttribute Client client,  HttpServletRequest request, RedirectAttributes redirectAttributes){
-        if(registration(client)){
-            clientList.add(client);
+        if(dataManager.registration(client)){
             Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
-            findandchange(authorize,  request.getRemoteAddr());
+            dataManager.findandchange(authorize,  request.getRemoteAddr());
             redirectAttributes.addFlashAttribute("client", authorize);
-            connector.saveClientGrpc(client);
             return "redirect:/home";
         }
         return "redirect:/registration";
@@ -105,10 +88,10 @@ public class HomeController {
 
     @PostMapping("/authorize")
     public String authorizeForm(@ModelAttribute Login clientaut, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Client client= authorize(clientaut.getLogin(), clientaut.getPassword());
+        Client client= dataManager.authorize(clientaut.getLogin(), clientaut.getPassword());
         if(client!=null) {
             Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
-            findandchange(authorize,  request.getRemoteAddr());
+            dataManager.findandchange(authorize,  request.getRemoteAddr());
             redirectAttributes.addFlashAttribute("client", authorize);
             return "redirect:/home";
         }
@@ -124,90 +107,14 @@ public class HomeController {
 
     @RequestMapping("/buy")
     public String buy(ModelMap model, HttpServletRequest request){
-        Authorize client=currentClient(model, request);
-        connector.buyGrpc(client);
+        Authorize client=dataManager.currentClient(model, request);
+        dataManager.buy(client);
         return "redirect:/home";
     }
 
 
 
-    private Authorize currentClient(ModelMap model, HttpServletRequest request){
-        Authorize client=(Authorize) model.get("client");
-        if(client==null) client=find(request.getRemoteAddr());
-        return client;
-    }
 
-
-
-    private Client authorize(String login, String password){
-        for(int i=0;i<clientList.size(); i++){
-            if(login.equals(clientList.get(i).getLogin())&&password.equals(clientList.get(i).getPassword())){
-                return clientList.get(i);
-            }
-        }
-        return  null;
-    }
-
-
-    private boolean registration(Client client){
-        for(int i=0;i<clientList.size(); i++){
-            if(client.getLogin().equals(clientList.get(i).getLogin())){
-                return false;
-            }
-        }
-        return  true;
-    }
-
-    private Authorize find(String ip){
-        for(int i=0;i<authorizeList.size(); i++){
-            if(authorizeList.get(i).getClientIp().equals(ip)){
-                return authorizeList.get(i);
-            }
-        }
-        authorizeList.add(new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0)));
-        return  new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0));
-    }
-
-    private void findandchange(Authorize authorize,String ip){
-        boolean find=true;
-        for(int i=0;i<authorizeList.size(); i++){
-            if(authorizeList.get(i).getClientIp().equals(ip)||authorizeList.get(i).getClientAutor().getLogin().equals(authorize.getClientAutor().getLogin())){
-                authorizeList.set(i,authorize);
-                find=false;
-                break;
-            }
-        };
-        if(find)
-        authorizeList.add(authorize);
-    }
-
-    private List<Product> productCategoryList(String category, String subcategory){
-        List<Product> productListBuf = new ArrayList<>();
-        boolean categoryBull=false;
-        boolean subcategoryBull=false;
-        for(int i=0; i<productList.size(); i++){
-            for(int j=0; j<productList.get(i).getSubcategoryList().size(); j++){
-                if(category.equals(productList.get(i).getSubcategoryList().get(j))){
-                    categoryBull=true;
-                }
-                if(subcategory.equals(productList.get(i).getSubcategoryList().get(j))){
-                    subcategoryBull=true;
-                }
-            }
-            if(categoryBull&&subcategoryBull) productListBuf.add(productList.get(i));
-
-        }
-        return productListBuf;
-    }
-
-    private Product productInfo(String url){
-        for(int i=0; i<productList.size(); i++){
-            if(productList.get(i).getUrl().equals(url)){
-                return productList.get(i);
-            }
-        }
-        return null;
-    }
 }
 
 
