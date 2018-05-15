@@ -19,7 +19,10 @@
 
     <script th:inline="javascript">
         var user= [[${client.clientAutor.login}]];
+    </script>
 
+    <script th:inline="javascript">
+        var product= [[${product}]];
     </script>
 
 </head>
@@ -49,7 +52,7 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart  <span class="badge">3</span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="'Hello,' +${client.clientAutor.login}"> <span class="caret"></span></a>
                         <ul id="dropdown-menu" class="dropdown-menu">
                             <script type="text/javascript">
@@ -80,7 +83,7 @@
                             <ul class="hide-bullets" id="prod-photo-small">
                                 <script type="text/javascript">
                                     $(function(){
-                                        addSmallProdPhoto();
+                                        addSmallProdPhoto(product, 3);
                                     });
                                 </script>
                             </ul>
@@ -95,7 +98,7 @@
                                             <div class="carousel-inner" id="prod-photo-large">
                                                 <script type="text/javascript">
                                                     $(function(){
-                                                        addLargeProgPhoto();
+                                                        addLargeProgPhoto(product, 3);
                                                     });
                                                 </script>
 
@@ -125,31 +128,31 @@
 
     <div class="col-main col-sm-6">
         <div class="contdiv">
-            <div class="prod-price" id="prod-price">
-                <h1 class="product-name"> PRODUCT-NAME </h1>
+            <div class="prod-name-price" id="prod-name-price">
+                <script type="text/javascript">
+                    $(function(){
+                        addProductNamePrice(product);
+                    });
+                </script>
             </div>
-            <div class="prod-detail-price">
-                <span>Price: </span>
-                <span id="price-label">  </span>
 
-            </div>
             <div class="container-quantity">
                 <dl>
 
                     <div class="row">
                         <div class="col-xs-6">
-                            <div class="input-group number-spinner row">
-                                <label>Count  </label>
+                            <div class="number-spinner ">
+                                <div class="input-group ">
+                                    <span>Count  </span>
 
-                                <span class="input-group-btn">
-                                        <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                    </span>
-                                <input type="text" class="form-control text-center" value="1">
-                                <span class="input-group-btn">
-                                        <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-
-
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                        </span>
+                                    <span><input type="text" class="form-control text-center" value="1"> </span>
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,28 +169,26 @@
         <li class="active"><a data-toggle="tab" href="#description">Description</a></li>
         <li><a data-toggle="tab" href="#product-detail">Product Details</a></li>
         <li><a data-toggle="tab" href="#product-photo">Product Photos</a></li>
-        <li><a data-toggle="tab" href="#feedback">Feedback</a></li>
     </ul>
 
     <div class="tab-content">
         <div id="description" class="tab-pane fade in active">
             <h3>Description</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>PLACEHOLDER.</p>
         </div>
         <div id="product-detail" class="tab-pane fade">
-            <h3>Product Details</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <script type="text/javascript">
+                $(function(){
+                    addProductDetails(product);
+                });
+            </script>
         </div>
         <div id="product-photo" class="tab-pane fade">
             <script type="text/javascript">
                 $(function(){
-                    addProductPhoto();
+                    addProductPhoto(product, 3);
                 });
             </script>
-        </div>
-        <div id="feedback" class="tab-pane fade">
-            <h3>Feedback</h3>
-            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
         </div>
     </div>
 </div>

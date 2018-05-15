@@ -122,6 +122,7 @@ public class DataManager {
         return null;
     }
 
+
     public void buy(Authorize basket){
         connector.buyGrpc(basket);
     }

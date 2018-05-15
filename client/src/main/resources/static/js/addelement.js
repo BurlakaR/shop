@@ -5,7 +5,6 @@ function addCategory (categories){
         var divdrop = document.createElement('div');
         divdrop.setAttribute('class','dropdown');
 
-
         var divdropcontent = document.createElement('div');
         divdropcontent.setAttribute('class','dropdown-content');
         for(var j=0;j<categories[i].subcategories.length;j++){
@@ -59,13 +58,14 @@ function addImgTxt (){
         var img = document.createElement('img');
         img.setAttribute("src", "images/sl"+i+".jpg");
         img.setAttribute("alt", "sl"+i);
+        img.href='#';
 
         var figcaption = document.createElement('figcaption');
         //figcaption.innerHTML = "text under the picture "+i;
 
-        var button = document.createElement('button');
+        /*var button = document.createElement('button');
         button.setAttribute("class", "btn-info");
-        button.innerHTML = "Buy";
+        button.innerHTML = "Buy";*/
 
         var aname = document.createElement('a');
         var aprice = document.createElement('a');
@@ -73,8 +73,10 @@ function addImgTxt (){
         var name = "product ";
 
         aname.innerHTML = "Name: "+name+i+" ";
+        aname.href='#';
 
         aprice.innerHTML = "Price: "+i+" ";
+        aprice.href='#';
 
         figcaption.appendChild(aname);
         //figcaption.appendChild(aprice);
@@ -87,7 +89,7 @@ function addImgTxt (){
 
         a.appendChild(aprice);
 
-        a.appendChild(button);
+        //a.appendChild(button);
 
         element.appendChild(a);
     }
@@ -119,21 +121,22 @@ function addFilter(){
 
 }
 
-function addProductPhoto (){
+function addProductPhoto (product, count){
     var element = document.getElementById('product-photo');
-    for(i=1; i<30; i++){
+    for(var i=1; i<count+1; i++){
         var img = document.createElement('img');
-        img.setAttribute("src", "images/sl"+i+".jpg");
-        img.setAttribute("alt", "sl"+i);
+        img.setAttribute("src", "../static/img/"+product.img+"/"+i+".jpg");
+        img.setAttribute("alt", product.img+i);
+        img.setAttribute("class", "center");
 
         element.appendChild(img);
 
     }
 }
 
-function addSmallProdPhoto(){
+function addSmallProdPhoto(product, count){
     var element = document.getElementById('prod-photo-small');
-    for(i=1; i<7; i++){
+    for(var i=1; i<count+1; i++){
 
         var x =i-1;
         var li = document.createElement('li');
@@ -144,8 +147,8 @@ function addSmallProdPhoto(){
         a.id = "carousel-selector-"+x;
 
         var img = document.createElement('img');
-        img.setAttribute("src", "images/sl"+i+".jpg");
-        img.setAttribute("alt", "sl"+i);
+        img.setAttribute("src", "../static/img/"+product.img+"/"+i+".jpg");
+        img.setAttribute("alt", product.img+i);
 
         a.appendChild(img);
         li.appendChild(a);
@@ -153,9 +156,9 @@ function addSmallProdPhoto(){
     }
 }
 
-function addLargeProgPhoto(){
+function addLargeProgPhoto(product, count){
     var element = document.getElementById('prod-photo-large');
-    for(i=1; i<7; i++){
+    for(var i=1; i<count+1; i++){
         var div = document.createElement('div');
         if(i==1){
             div.setAttribute("class", "active item");
@@ -165,8 +168,8 @@ function addLargeProgPhoto(){
             div.setAttribute("data-slide-number", i);
         }
         var img = document.createElement('img');
-        img.setAttribute("src", "images/sl"+i+".jpg");
-        img.setAttribute("alt", "sl"+i);
+        img.setAttribute("src", "../static/img/"+product.img+"/"+i+".jpg");
+        img.setAttribute("alt", product.img+i);
 
         div.appendChild(img);
         element.appendChild(div);
@@ -267,3 +270,83 @@ function addCarouselInner(countElement) {
     }
 }
 
+
+function addProductList (products){
+    var element = document.getElementById('imgtext');
+
+
+    for(i=0; i<products.length; i++){
+        var a = document.createElement('a');
+
+        var figure = document.createElement('figure');
+        var img = document.createElement('img');
+        img.setAttribute("src", "../static/img/"+products[i].img+"/1.jpg");
+        img.setAttribute("alt", products[i].img+"1");
+        img.href='#';
+
+        var figcaption = document.createElement('figcaption');
+
+        var aname = document.createElement('a');
+        var aprice = document.createElement('a');
+
+        aname.innerText = "Name: "+products[i].name+" ";
+        aname.href='#';
+
+        aprice.innerText = "Price: "+products[i].price+" ";
+        aprice.href='#';
+
+        figcaption.appendChild(aname);
+
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+
+        a.appendChild(figure);
+
+        a.appendChild(aprice);
+
+        element.appendChild(a);
+    }
+
+}
+
+function addProductNamePrice(product) {
+    var element = document.getElementById('prod-name-price');
+    var divName = document.createElement('div');
+    divName.setAttribute("class", "prod-name");
+    divName.setAttribute("id", "prod-name");
+    var h1 = document.createElement('h1');
+    h1.innerHTML = product.name;
+    divName.appendChild(h1);
+
+    var divPrice = document.createElement('div');
+    divPrice.setAttribute("class", "prod-price");
+    divPrice.setAttribute("id", "prod-price");
+    var spanLabelPrice = document.createElement('span');
+    spanLabelPrice.innerHTML = "Price: ";
+    var spanPrice = document.createElement('span');
+    spanPrice.innerHTML = product.price;
+    spanPrice.setAttribute("id", "price");
+    divPrice.appendChild(spanLabelPrice);
+    divPrice.appendChild(spanPrice);
+
+    element.appendChild(divName);
+    element.appendChild(divPrice);
+}
+
+function addProductDetails(product) {
+    var element = document.getElementById('product-detail');
+    var h3 = document.createElement('h3');
+    h3.innerHTML = 'Product Details';
+    element.appendChild(h3);
+    for (var i=0; i<product.propertyList.length; i++){
+        var p = document.createElement('p');
+        var spanProperty = document.createElement('span');
+        spanProperty.innerHTML = product.propertyList[i].property +": ";
+        var spanDescription = document.createElement('span');
+        spanDescription.innerHTML = product.propertyList[i].description;
+
+        p.appendChild(spanProperty);
+        p.appendChild(spanDescription);
+        element.appendChild(p);
+    }
+}
