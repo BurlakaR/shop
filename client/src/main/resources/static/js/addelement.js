@@ -310,7 +310,27 @@ function addProductList (products){
 }
 
 function addProductNamePrice(product) {
-    var element = document.getElementById('prod-name-price');
+    var h1 = document.getElementById('prod-name');
+    h1.innerHTML = product.name;
+
+    var price = document.getElementById('prod-price');
+    price.innerHTML = product.price;
+
+    var totalPrice = document.getElementById('prod-total-price');
+    totalPrice.innerText = product.price;
+
+
+    var element = document.getElementById('prod-cat');
+    var prodCatLabel = document.createElement('span');
+    prodCatLabel.innerHTML="Category: ";
+    element.appendChild(prodCatLabel);
+
+    for(var i=0; i<product.subcategoryList.length; i++){
+        var prodCat = document.createElement('span');
+        prodCat.innerHTML = product.subcategoryList[i] + " ";
+        element.appendChild(prodCat);
+    }
+    /*var element = document.getElementById('prod-name-price');
     var divName = document.createElement('div');
     divName.setAttribute("class", "prod-name");
     divName.setAttribute("id", "prod-name");
@@ -321,6 +341,7 @@ function addProductNamePrice(product) {
     var divPrice = document.createElement('div');
     divPrice.setAttribute("class", "prod-price");
     divPrice.setAttribute("id", "prod-price");
+
     var spanLabelPrice = document.createElement('span');
     spanLabelPrice.innerHTML = "Price: ";
     var spanPrice = document.createElement('span');
@@ -329,8 +350,21 @@ function addProductNamePrice(product) {
     divPrice.appendChild(spanLabelPrice);
     divPrice.appendChild(spanPrice);
 
+    var divTotalPrice = document.createElement('div');
+    divTotalPrice.setAttribute("class", "prod-total-price");
+    divTotalPrice.setAttribute("id", "prod-total-price");
+
+    var spanLabelTotalPrice = document.createElement('span');
+    spanLabelTotalPrice.innerHTML = "Total price: ";
+    var spanTotalPrice = document.createElement('span');
+    spanTotalPrice.innerHTML = product.price;
+    spanTotalPrice.setAttribute("id", "total-price");
+    divTotalPrice.appendChild(spanLabelTotalPrice);
+    divTotalPrice.appendChild(spanTotalPrice);
+
     element.appendChild(divName);
     element.appendChild(divPrice);
+    element.appendChild(divTotalPrice);*/
 }
 
 function addProductDetails(product) {
@@ -349,4 +383,42 @@ function addProductDetails(product) {
         p.appendChild(spanDescription);
         element.appendChild(p);
     }
+}
+
+function addDropdownBasket(basket) {
+    var element = document.getElementById('dropdown-menu-basket');
+
+    var li_basket_name = document.createElement('li');
+    var p_product_name = document.createElement('p');
+    var p_product_totalprice = document.createElement('p');
+
+    if (basket.productList.length===0){
+        p_product_name.innerHTML = "NAME EMPTY";
+        p_product_totalprice.innerHTML = "PRICE EMPTY";
+
+        li_basket_name.appendChild(span_product_name);
+        li_basket_name.appendChild(span_product_totalprice);
+        element.appendChild(li_basket_name);
+    }else {
+        for (var i; i < basket.productList.length; i++) {
+            p_product_name.innerHTML = basket.productList[i].name;
+            li_basket_name.appendChild(span_product_name);
+            element.appendChild(li_basket_name);
+            element.appendChild(li_basket_name);
+        }
+        p_product_totalprice.innerHTML = basket.totalPrice;
+        li_basket_name.appendChild(span_product_totalprice);
+        element.appendChild(li_basket_name);
+    }
+}
+
+
+function addProdBasket(product) {
+    var prodObj = document.getElementById('prodObj');
+    prodObj.value = product;
+    /*prodObj.setAttribute("th:object", product);*/
+
+    var totalPrice = document.getElementById('prod-total-price').innerHTML;
+    var prodTotal = document.getElementById('prodTotal');
+    prodTotal.value = totalPrice;
 }

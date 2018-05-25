@@ -14,6 +14,10 @@ $(document).on('click', '.number-spinner button', function () {
     }
     btn.closest('.number-spinner').find('input').val(newVal);
 
+    var pr = document.getElementById('prod-price').innerHTML;
+    var totalPrice = pr * newVal;
+    document.getElementById('prod-total-price').innerHTML = totalPrice;
+
     /*var pr = 12;
     document.getElementById('price-label').innerHTML;
     var price = pr * newVal;

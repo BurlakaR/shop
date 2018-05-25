@@ -28,6 +28,10 @@
         var products= [[${products}]];
     </script>
 
+    <script th:inline="javascript" async>
+        var basket= [[${client.basket}]];
+    </script>
+
 
     <script src="../static/js/addelement.js"></script>
 </head>
@@ -57,7 +61,15 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart </a></li>
+                    <li class="dropdown"><a class="glyphicon glyphicon-shopping-cart dropdown-toggle" data-toggle="dropdown" href="#" th:text="Cart"><span class="caret"></span> Cart </a>
+                        <ul id = "dropdown-menu-basket" class="dropdown-menu">
+                            <script type="text/javascript">
+                                $(function(){
+                                    addDropdownBasket(basket);
+                                });
+                            </script>
+                        </ul>
+                    </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="'Hello,' +${client.clientAutor.login}"> <span class="caret"></span></a>
                         <ul id="dropdown-menu" class="dropdown-menu">
                             <script type="text/javascript">

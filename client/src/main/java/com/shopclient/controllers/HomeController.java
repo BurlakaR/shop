@@ -50,6 +50,7 @@ public class HomeController {
         Product product = dataManager.productInfo(prod);
         model.addAttribute("client", client);
         model.addAttribute("product", product);
+        model.addAttribute("categoryList",  dataManager.getCategoryList());
         return "product";
     }
 
@@ -111,7 +112,6 @@ public class HomeController {
         dataManager.buy(client);
         return "redirect:/home";
     }
-
 
 
 
