@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Product</title>
     <meta charset="utf-8">
@@ -76,7 +76,9 @@
                                     addDropdownMenu(user);
                                 });
                             </script>
+                            <p th:text="${client.basket.totalPrice}"></p>
                         </ul>
+
                     </li>
                     <!--<li><a href="registration.html#toregistration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li><a href="registration.html#tologin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>-->
@@ -177,7 +179,7 @@
                                     <span class="input-group-btn">
                                             <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
                                         </span>
-                                    <span><input type="text" class="form-control text-center" value="1"> </span>
+                                    <span><input id="numspin" type="text" class="form-control text-center" value="1"> </span>
                                     <span class="input-group-btn">
                                             <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
                                         </span>
@@ -187,9 +189,9 @@
                     </div>
                 </dl>
                 <!--<button type="button" class="btn btn-success">Buy Now</button>-->
-                <form action="#" th:action="@{/buy}" th:object="${basket}"  method="post">
-                    <input type="hidden" id="prodObj" th:field="*{productList[]}" value="">
-                    <input type="hidden" id="prodTotal" th:field="*{totalPrice}" value="">
+                <form action="#" th:action="@{/buy}" th:object="${productmes}"  method="post">
+                    <input type="hidden" id="url" th:field="*{url}" value="">
+                    <input type="hidden" id="number" th:field="*{number}" value="">
                     <script type="text/javascript">
                         $(function(){
                             addProdBasket(product);

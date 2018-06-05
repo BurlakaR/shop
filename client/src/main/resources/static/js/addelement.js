@@ -290,10 +290,10 @@ function addProductList (products){
         var aprice = document.createElement('a');
 
         aname.innerText = "Name: "+products[i].name+" ";
-        aname.href='#';
+        aname.href='/products/'+products[i].url;
 
         aprice.innerText = "Price: "+products[i].price+" ";
-        aprice.href='#';
+
 
         figcaption.appendChild(aname);
 
@@ -388,34 +388,38 @@ function addProductDetails(product) {
 function addDropdownBasket(basket) {
     var element = document.getElementById('dropdown-menu-basket');
 
-    var li_basket_name = document.createElement('li');
-    var p_product_name = document.createElement('p');
-    var p_product_totalprice = document.createElement('p');
 
-    if (basket.productList.length===0){
-        p_product_name.innerHTML = "NAME EMPTY";
-        p_product_totalprice.innerHTML = "PRICE EMPTY";
+        for (var i=0; i < basket.productList.length; i++) {
+            var li_signup = document.createElement('li');
+            var span=document.createElement('p');
+            var a_signup = document.createElement('span');
+            var del=document.createElement('span');
+            var del2=document.createElement('a');
 
-        li_basket_name.appendChild(span_product_name);
-        li_basket_name.appendChild(span_product_totalprice);
-        element.appendChild(li_basket_name);
-    }else {
-        for (var i; i < basket.productList.length; i++) {
-            p_product_name.innerHTML = basket.productList[i].name;
-            li_basket_name.appendChild(span_product_name);
-            element.appendChild(li_basket_name);
-            element.appendChild(li_basket_name);
+            //a_signup.setAttribute("href", "/registration#toregistration");
+            a_signup.innerHTML = basket.productList[i].name + "x" +basket.count[i];
+
+            del2.href='/delete/'+basket.productList[i].url;
+            del2.innerHTML= "Delete";
+            del.appendChild(del2);
+            span.appendChild(a_signup);
+            span.appendChild(del);
+            li_signup.appendChild(span);
+            element.appendChild(li_signup);
         }
-        p_product_totalprice.innerHTML = basket.totalPrice;
-        li_basket_name.appendChild(span_product_totalprice);
-        element.appendChild(li_basket_name);
-    }
+
+        //li_signup.innerHTML = basket.totalPrice;
+
+        element.appendChild(li_signup);
+   // }
 }
 
 
 function addProdBasket(product) {
-    var prodObj = document.getElementById('prodObj');
-    prodObj.value = product;
+    var prodObj = document.getElementById('url');
+    prodObj.value = product.url;
+
+
     /*prodObj.setAttribute("th:object", product);*/
 
     var totalPrice = document.getElementById('prod-total-price').innerHTML;

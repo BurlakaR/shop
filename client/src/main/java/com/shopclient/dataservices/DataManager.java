@@ -77,8 +77,8 @@ public class DataManager {
                 return authorizeList.get(i);
             }
         }
-        authorizeList.add(new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0)));
-        return  new Authorize(guest, ip, new Basket(new ArrayList<Product>(), 0));
+        authorizeList.add(new Authorize(guest, ip, new Basket(new ArrayList<Product>(), new ArrayList<>(), 0)));
+        return  new Authorize(guest, ip, new Basket(new ArrayList<Product>(), new ArrayList<>(), 0));
     }
 
     public void findandchange(Authorize authorize,String ip){

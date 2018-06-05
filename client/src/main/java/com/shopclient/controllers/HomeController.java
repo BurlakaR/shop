@@ -48,10 +48,21 @@ public class HomeController {
     public String productPage(ModelMap model, HttpServletRequest request,@PathVariable("product") String prod){
         Authorize client=dataManager.currentClient(model, request);
         Product product = dataManager.productInfo(prod);
+
+        model.addAttribute("productmes", new ProductMessage("",0));
         model.addAttribute("client", client);
         model.addAttribute("product", product);
         model.addAttribute("categoryList",  dataManager.getCategoryList());
+
         return "product";
+    }
+
+    @RequestMapping("/delete/{product}")
+    public String deleteProd(ModelMap model, HttpServletRequest request,@PathVariable("product") String prod){
+        Authorize client=dataManager.currentClient(model, request);
+        client.getBasket().prodDelete(dataManager.productInfo(prod));
+
+        return "redirect:/home";
     }
 
     @RequestMapping("/{category}/{subcategory}")
@@ -79,7 +90,7 @@ public class HomeController {
     @PostMapping("/registration")
     public String registrationForm(@ModelAttribute Client client,  HttpServletRequest request, RedirectAttributes redirectAttributes){
         if(dataManager.registration(client)){
-            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
+            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), new ArrayList<>(), 0));
             dataManager.findandchange(authorize,  request.getRemoteAddr());
             redirectAttributes.addFlashAttribute("client", authorize);
             return "redirect:/home";
@@ -91,7 +102,7 @@ public class HomeController {
     public String authorizeForm(@ModelAttribute Login clientaut, HttpServletRequest request, RedirectAttributes redirectAttributes){
         Client client= dataManager.authorize(clientaut.getLogin(), clientaut.getPassword());
         if(client!=null) {
-            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), 0));
+            Authorize authorize= new Authorize(client, request.getRemoteAddr(),new Basket(new ArrayList<Product>(), new ArrayList<>(), 0));
             dataManager.findandchange(authorize,  request.getRemoteAddr());
             redirectAttributes.addFlashAttribute("client", authorize);
             return "redirect:/home";
@@ -107,9 +118,12 @@ public class HomeController {
     }
 
     @RequestMapping("/buy")
-    public String buy(ModelMap model, HttpServletRequest request){
+    public String buy(@ModelAttribute ProductMessage pm, ModelMap model, HttpServletRequest request){
         Authorize client=dataManager.currentClient(model, request);
-        dataManager.buy(client);
+        if(pm.getNumber()==0) pm.setNumber(1);
+        client.getBasket().getProductList().add(dataManager.productInfo(pm.getUrl()));
+        client.getBasket().getCount().add(pm.getNumber());
+        client.getBasket().reccount();
         return "redirect:/home";
     }
 

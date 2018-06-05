@@ -16,8 +16,12 @@ $(document).on('click', '.number-spinner button', function () {
 
     var pr = document.getElementById('prod-price').innerHTML;
     var totalPrice = pr * newVal;
+
     document.getElementById('prod-total-price').innerHTML = totalPrice;
 
+    var number = document.getElementById('number');
+    if (newVal===0) newVal=1;
+    number.value = newVal;
     /*var pr = 12;
     document.getElementById('price-label').innerHTML;
     var price = pr * newVal;
